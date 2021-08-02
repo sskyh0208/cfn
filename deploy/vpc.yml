@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  ProjectName:
+    Description: Input for project name.
+    Type: String
+
+  Environment:
+    Description: Input for project environment.
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - prd
+
+Description: 'test cfn vpc'
+Resources: 
+  myVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: !Sub "${Environment}-${ProjectName}-vpc"
+Outputs:
+  VpcId:
+    Description: create vpc id
+    Value: !Ref myVPC
+    Export: 
+      Name: !Sub "${Environment}-${ProjectName}-VpcId"
